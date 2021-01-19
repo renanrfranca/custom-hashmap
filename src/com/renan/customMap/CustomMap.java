@@ -60,6 +60,16 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public boolean containsKey(Object key) {
+        final int index = key.hashCode() % this.capacity;
+        Node<K,V> node = table.get(index);
+
+        while (node != null) {
+            if (node.getKey() == key) {
+                return true;
+            }
+            node = node.next;
+        }
+
         return false;
     }
 
