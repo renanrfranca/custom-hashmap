@@ -122,7 +122,7 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-
+        m.forEach(this::put);
     }
 
     @Override
