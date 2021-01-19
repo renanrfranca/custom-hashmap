@@ -80,6 +80,16 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public V get(Object key) {
+        final int index = key.hashCode() % this.capacity;
+        Node<K,V> node = table.get(index);
+
+        while (node != null) {
+            if (node.getKey() == key) {
+                return node.getValue();
+            }
+            node = node.next;
+        }
+
         return null;
     }
 
@@ -142,7 +152,7 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public Set<K> keySet() {
-        return null;
+        return ;
     }
 
     @Override
