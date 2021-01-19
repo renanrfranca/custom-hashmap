@@ -127,7 +127,7 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public void clear() {
-
+        this.table.clear();
     }
 
     @Override
