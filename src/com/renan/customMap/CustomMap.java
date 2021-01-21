@@ -41,11 +41,11 @@ public class CustomMap<K,V> implements Map<K,V> {
     }
 
     private class Iterator implements java.util.Iterator<Node<K,V>> {
-        private final CustomMap map;
+        private final CustomMap<K,V> map;
         private int index;
         private Node<K,V> node;
 
-        public Iterator(CustomMap map) {
+        public Iterator(CustomMap<K,V> map) {
             this.map = map;
         }
 
@@ -124,7 +124,9 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public boolean containsValue(Object value) {
-        return false;
+        Collection<V> values = values();
+
+        return values.contains(value);
     }
 
     @Override
@@ -204,17 +206,38 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public Set<K> keySet() {
-        return null;
+        Set<K> keys = new HashSet<>();
+        Iterator it = getIterator();
+
+        for (it.first(); it.hasNext(); it.next()) {
+            keys.add(it.node.getKey());
+        }
+
+        return keys;
     }
 
     @Override
     public Collection<V> values() {
-        return null;
+        Collection<V> values = new ArrayList<>();
+
+        Iterator it = getIterator();
+        for (it.first(); it.hasNext(); it.next()) {
+            values.add(it.node.getValue());
+        }
+
+        return values;
     }
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        return null;
+        Set<Entry<K,V>> entries = new HashSet<>();
+
+        Iterator it = getIterator();
+        for (it.first(); it.hasNext(); it.next()) {
+            entries.add(it.node);
+        }
+
+        return entries;
     }
 
     private Iterator getIterator() {
