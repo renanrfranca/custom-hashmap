@@ -1,9 +1,10 @@
 package com.renan.customMap;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    private final static CustomMap<String, String> map = new CustomMap<>();
+    private final static Map<String, String> map = new CustomMap<>();
 
     public static void main(String[] args) {
         int option = -1;
