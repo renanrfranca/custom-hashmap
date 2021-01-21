@@ -162,11 +162,13 @@ public class CustomMap<K,V> implements Map<K,V> {
 
         if (prev == null) {
             table[index] = newNode;
-            size++;
+
         } else {
             newNode.next = prev.next;
             prev.next = newNode;
         }
+
+        size++;
 
         return value;
     }
@@ -238,6 +240,31 @@ public class CustomMap<K,V> implements Map<K,V> {
         }
 
         return entries;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node<K,V> head;
+
+        for (int i = 0; i < DEFAULT_CAPACITY; i++) {
+            sb.append("Pos [").append(i).append("]: ");
+            head = table[i];
+            while (head != null) {
+                sb.append(head.getKey())
+                        .append(" -> ")
+                        .append(head.getValue())
+                        .append("; ");
+                head = head.next;
+            }
+            sb.append(System.getProperty("line.separator"));
+        }
+
+        sb.append(System.getProperty("line.separator"))
+                .append("Número de itens: ").append(size)
+                .append(System.getProperty("line.separator"));
+
+        return sb.toString();
     }
 
     private Iterator getIterator() {

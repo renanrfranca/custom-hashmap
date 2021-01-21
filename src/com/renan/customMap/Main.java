@@ -26,6 +26,7 @@ public class Main {
         System.out.println("1 - adicionar item");
         System.out.println("2 - buscar item");
         System.out.println("3 - remover item");
+        System.out.println("4 - imprimir mapa");
         System.out.println("0 - Sair");
     }
 
@@ -50,6 +51,9 @@ public class Main {
                 System.out.println("Informe a chave do valor a ser removido:");
                 chave = in.nextLine();
                 System.out.println("Valor removido: " + map.remove(chave));
+                break;
+            case 4:
+                System.out.println(map.toString());
                 break;
             case 0:
                 System.out.println("Até mais!");
