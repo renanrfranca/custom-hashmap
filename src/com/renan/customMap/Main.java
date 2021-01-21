@@ -14,7 +14,7 @@ public class Main {
             try {
                 printMainMenu();
                 option = Integer.parseInt(in.nextLine());
-                callAction(option);
+                callAction(option, in);
             } catch (NumberFormatException e) {
                 System.out.println("Opção inválida");
             }
@@ -29,16 +29,27 @@ public class Main {
         System.out.println("0 - Sair");
     }
 
-    private static void callAction(int actionCode) {
+    private static void callAction(int actionCode, Scanner in) {
+        String chave;
+        String valor;
+
         switch (actionCode) {
             case 1:
-                System.out.println("Adição");
+                System.out.println("Informe a chave do valor a ser adicionado:");
+                chave = in.nextLine();
+                System.out.println("Informe o valor:");
+                valor = in.nextLine();
+                map.put(chave, valor);
                 break;
             case 2:
-                System.out.println("Busca");
+                System.out.println("Informe a chave do valor a ser buscado:");
+                chave = in.nextLine();
+                System.out.println(map.get(chave));
                 break;
             case 3:
-                System.out.println("Remoção");
+                System.out.println("Informe a chave do valor a ser removido:");
+                chave = in.nextLine();
+                System.out.println("Valor removido: " + map.remove(chave));
                 break;
             case 0:
                 System.out.println("Até mais!");
