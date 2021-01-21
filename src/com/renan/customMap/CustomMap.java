@@ -3,10 +3,10 @@ package com.renan.customMap;
 import java.util.*;
 
 public class CustomMap<K,V> implements Map<K,V> {
-    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
+    final int DEFAULT_CAPACITY = 1 << 4; // aka 16
 
-    final private ArrayList<Node<K,V>> table;
-    private int capacity;
+    @SuppressWarnings({"unchecked"}) // Retirado da classe HashMap
+    final private Node<K,V>[] table = (Node<K, V>[]) new Node[DEFAULT_CAPACITY];
     private int size;
 
     static class Node<K,V> implements Map.Entry<K,V> {
@@ -41,9 +41,7 @@ public class CustomMap<K,V> implements Map<K,V> {
     }
 
     public CustomMap() {
-        this.table = new ArrayList<>(DEFAULT_INITIAL_CAPACITY);
         this.size = 0;
-        this.capacity = DEFAULT_INITIAL_CAPACITY;
     }
 
     @Override
@@ -58,8 +56,8 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public boolean containsKey(Object key) {
-        final int index = key.hashCode() % this.capacity;
-        Node<K,V> node = table.get(index);
+        final int index = key.hashCode() % this.DEFAULT_CAPACITY;
+        Node<K,V> node = table[index];
 
         while (node != null) {
             if (node.getKey() == key) {
@@ -78,8 +76,8 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public V get(Object key) {
-        final int index = key.hashCode() % this.capacity;
-        Node<K,V> node = table.get(index);
+        final int index = key.hashCode() % this.DEFAULT_CAPACITY;
+        Node<K,V> node = table[index];
 
         while (node != null) {
             if (node.getKey() == key) {
@@ -93,9 +91,9 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public V put(K key, V value) {
-        final int index = key.hashCode() % this.capacity;
-        Node head = table.get(index);
-        Node prev = null;
+        final int index = key.hashCode() % this.DEFAULT_CAPACITY;
+        Node<K,V> head = table[index];
+        Node<K,V> prev = null;
 
         while (head != null) {
             if (head.getKey() == key) {
@@ -105,10 +103,11 @@ public class CustomMap<K,V> implements Map<K,V> {
             head = head.next;
         }
 
-        Node newNode = new Node<>(key, value);
+        Node<K,V> newNode = new Node<>(key, value);
 
         if (prev == null) {
-            table.add(index, newNode);
+            table[index] = newNode;
+            size++;
         } else {
             newNode.next = prev.next;
             prev.next = newNode;
@@ -119,14 +118,16 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public V remove(Object key) {
-        final int index = key.hashCode() % this.capacity;
-        Node<K,V> head = table.get(index);
+        final int index = key.hashCode() % this.DEFAULT_CAPACITY;
+        Node<K,V> head = table[index];
         Node<K,V> prev = null;
 
         while (head != null) {
             if (head.getKey() == key) {
                 if (prev == null) {
-                    return table.remove(index).getValue();
+                    V value = table[index].getValue();
+                    table[index] = null;
+                    return value;
                 }
                 prev.next = head.next;
                 return head.getValue();
@@ -145,7 +146,7 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public void clear() {
-        this.table.clear();
+        Arrays.fill(table, null);
     }
 
     @Override
