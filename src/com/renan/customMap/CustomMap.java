@@ -40,6 +40,59 @@ public class CustomMap<K,V> implements Map<K,V> {
         }
     }
 
+    private class Iterator implements java.util.Iterator<Node<K,V>> {
+        private final CustomMap map;
+        private int index;
+        private Node<K,V> node;
+
+        public Iterator(CustomMap map) {
+            this.map = map;
+        }
+
+        public void first() {
+            this.index = -1;
+            next();
+        }
+
+        @Override
+        public boolean hasNext() {
+            int cursor = index;
+            
+            if (node != null) {
+                node = node.next;
+            }
+
+            while (node == null) {
+                cursor++;
+                try {
+                    node = map.table[index];
+                } catch (IndexOutOfBoundsException e) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        @Override
+        public Node<K, V> next() {
+            if (node != null) {
+                node = node.next;
+            }
+
+            while (node == null) {
+                index++;
+                try {
+                    node = map.table[index];
+                } catch (IndexOutOfBoundsException e) {
+                    throw new NoSuchElementException();
+                }
+            }
+
+            return node;
+        }
+    }
+
     public CustomMap() {
         this.size = 0;
     }
@@ -162,5 +215,9 @@ public class CustomMap<K,V> implements Map<K,V> {
     @Override
     public Set<Entry<K, V>> entrySet() {
         return null;
+    }
+
+    private Iterator getIterator() {
+        return new Iterator(this);
     }
 }
