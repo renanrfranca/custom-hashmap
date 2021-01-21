@@ -65,7 +65,7 @@ public class CustomMap<K,V> implements Map<K,V> {
             while (node == null) {
                 cursor++;
                 try {
-                    node = map.table[index];
+                    node = map.table[cursor];
                 } catch (IndexOutOfBoundsException e) {
                     return false;
                 }
