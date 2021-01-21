@@ -10,13 +10,11 @@ public class CustomMap<K,V> implements Map<K,V> {
     private int size;
 
     static class Node<K,V> implements Map.Entry<K,V> {
-        private final int hash;
         private final K key;
         private V value;
         Node<K,V> next;
 
         public Node(K key, V value) {
-            this.hash = key.hashCode();
             this.key = key;
             this.value = value;
         }
@@ -42,7 +40,7 @@ public class CustomMap<K,V> implements Map<K,V> {
         }
     }
 
-    public CustomMap(K key, V value) {
+    public CustomMap() {
         this.table = new ArrayList<>(DEFAULT_INITIAL_CAPACITY);
         this.size = 0;
         this.capacity = DEFAULT_INITIAL_CAPACITY;
@@ -152,7 +150,7 @@ public class CustomMap<K,V> implements Map<K,V> {
 
     @Override
     public Set<K> keySet() {
-        return ;
+        return null;
     }
 
     @Override
