@@ -113,7 +113,7 @@ public class CustomMap<K,V> implements Map<K,V> {
         Node<K,V> node = table[index];
 
         while (node != null) {
-            if (node.getKey() == key) {
+            if (node.getKey().equals(key)) {
                 return true;
             }
             node = node.next;
@@ -135,7 +135,7 @@ public class CustomMap<K,V> implements Map<K,V> {
         Node<K,V> node = table[index];
 
         while (node != null) {
-            if (node.getKey() == key) {
+            if (node.getKey().equals(key)) {
                 return node.getValue();
             }
             node = node.next;
@@ -151,7 +151,7 @@ public class CustomMap<K,V> implements Map<K,V> {
         Node<K,V> prev = null;
 
         while (head != null) {
-            if (head.getKey() == key) {
+            if (head.getKey().equals(key)) {
                 return value;
             }
             prev = head;
@@ -178,7 +178,7 @@ public class CustomMap<K,V> implements Map<K,V> {
         Node<K,V> prev = null;
 
         while (head != null) {
-            if (head.getKey() == key) {
+            if (head.getKey().equals(key)) {
                 if (prev == null) {
                     V value = table[index].getValue();
                     table[index] = null;
